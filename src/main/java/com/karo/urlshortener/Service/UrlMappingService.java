@@ -3,12 +3,15 @@ package com.karo.urlshortener.Service;
 
 import com.karo.urlshortener.Entity.UrlMapping;
 import com.karo.urlshortener.Repository.UrlMappingRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
 @Service
 public class UrlMappingService {
+
+    @Autowired
     private UrlMappingRepository urlMappingRepository;
 
     public String generateShortUrl(String originalUrl) {
