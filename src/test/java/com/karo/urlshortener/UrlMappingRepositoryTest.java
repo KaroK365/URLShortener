@@ -22,7 +22,7 @@ public class UrlMappingRepositoryTest {
         urlMapping.setCreatedAt(LocalDateTime.now());
 
         UrlMapping saved = urlMappingRepository.save(urlMapping);
-        UrlMapping found = urlMappingRepository.findByshortUrl("short");
+        UrlMapping found = urlMappingRepository.findByShortUrl("short");
 
         assertThat(found).isNotNull();
         assertThat(found.getOriginalUrl()).isEqualTo("original");

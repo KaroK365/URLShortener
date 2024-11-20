@@ -4,6 +4,6 @@ import com.karo.urlshortener.Entity.UrlMapping;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UrlMappingRepository extends JpaRepository<UrlMapping, Integer> {
-    UrlMapping findByoriginalUrl(String originalUrl);
-    UrlMapping findByshortUrl(String shortUrl);
+    UrlMapping findByOriginalUrl(String originalUrl);
+    UrlMapping findByShortUrl(String shortUrl);
 }
