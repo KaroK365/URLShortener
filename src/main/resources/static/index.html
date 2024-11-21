@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>URL Shortener</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+    }
+    .result {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    .copy-btn {
+      margin-top: 10px;
+      display: block;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      text-align: center;
+      border-radius: 5px;
+      text-decoration: none;
+    }
+    .copy-btn:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h2>URL Shortener</h2>
+  <form id="generate-form">
+    <h3>Generate Short URL</h3>
+    <input type="text" id="longUrl" placeholder="Enter long URL" required />
+    <button type="submit">Generate</button>
+  </form>
+  <div id="generated-url" class="result"></div>
+  <button id="copy-btn" class="copy-btn" style="display: none;">Copy Short URL</button>
+</div>
+<script>
+  const generateForm = document.getElementById('generate-form');
+  const copyButton = document.getElementById('copy-btn');
+  const generatedUrlDiv = document.getElementById('generated-url');
+
+  generateForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const longUrl = document.getElementById('longUrl').value;
+
+    try {
+      // Make the POST request sending raw text
+      const response = await fetch('/gg/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain' },
+        body: longUrl
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to generate short URL');
+      }
+
+      const shortUrlCode = await response.text();
+      const fullShortUrl = `http://localhost:8080/gg/${shortUrlCode}`;
+
+      // Display the short URL
+      generatedUrlDiv.textContent = `Short URL: ${fullShortUrl}`;
+      generatedUrlDiv.style.display = 'block';
+
+      // Show the copy button and set its action
+      copyButton.style.display = 'block';
+      copyButton.onclick = () => {
+        navigator.clipboard.writeText(fullShortUrl).then(() => {
+          alert('Short URL copied to clipboard!');
+        }).catch(() => {
+          alert('Failed to copy short URL.');
+        });
+      };
+    } catch (error) {
+      generatedUrlDiv.textContent = 'Error generating short URL.';
+      generatedUrlDiv.style.display = 'block';
+      copyButton.style.display = 'none';
+    }
+  });
+</script>
+</body>
+</html>
