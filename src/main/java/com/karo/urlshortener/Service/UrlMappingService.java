@@ -25,6 +25,8 @@ public class UrlMappingService {
         return urlMappingRepository.save(urlMapping);
     }
 
+
+
     public String getOriginalUrl(String shortUrl) {
         UrlMapping urlMapping = urlMappingRepository.findByShortUrl(shortUrl);
         if(urlMapping != null) {

@@ -18,6 +18,12 @@ public class UrlMappingController {
         return ResponseEntity.ok(shortUrl);
     }
 
+    @GetMapping("/original/{shortUrl}")
+    public ResponseEntity<String> getOriginalUrl(@PathVariable String shortUrl) {
+        String originalUrl = urlMappingService.getOriginalUrl(shortUrl);
+        return ResponseEntity.ok(originalUrl);
+    }
+
     @GetMapping("/{shortUrl}")
     public ResponseEntity<String> redirectToOriginalUrl(@PathVariable String shortUrl) {
         String originalUrl = urlMappingService.getOriginalUrl(shortUrl);
