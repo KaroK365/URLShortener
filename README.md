@@ -22,17 +22,41 @@ Before you can run the application, ensure you have the following installed:
      sudo service postgresql start
      ```
 
-2. Update `application.properties` for backend connection:
+2. Create a database named `url_shortener`:
+   - Open a PostgreSQL terminal or use a GUI like pgAdmin, and run the following SQL query:
+     ```sql
+     CREATE DATABASE url_shortener;
+     ```
+
+3. Create the `url_mapping` table:
+   - Run the following SQL query to create the table that will store the URL mapping:
+     ```sql
+     CREATE TABLE url_mapping (
+         id SERIAL PRIMARY KEY,
+         created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+         original_url TEXT NOT NULL,
+         short_url TEXT NOT NULL
+     );
+     ```
+
+4. Grant all permissions to the user:
+   - You need to grant all permissions to the PostgreSQL user that your application will use to connect to the database. Run this SQL query:
+     ```sql
+     GRANT ALL PRIVILEGES ON DATABASE url_shortener TO your_username;
+     ```
+
+5. Update `application.properties` for backend connection:
    - Set the PostgreSQL username and password in the `application.properties` file located in `src/main/resources/`.
 
    Example:
    ```properties
-   spring.datasource.url=jdbc:postgresql://localhost:5432/your_database
+   spring.datasource.url=jdbc:postgresql://localhost:5432/url_shortener
    spring.datasource.username=your_username
    spring.datasource.password=your_password
    spring.jpa.hibernate.ddl-auto=update
+   ```
 
-
+---
 
 ### 2. Run the Backend
 
